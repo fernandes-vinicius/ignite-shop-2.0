@@ -43,17 +43,15 @@ export const Product = styled('div', {
     transform: 'translateY(110%)',
     opacity: 0,
     transition: 'all 0.2s ease-in-out',
+  },
 
-    strong: {
-      fontSize: '$lg',
-      color: '$gray100',
-    },
-
-    span: {
-      fontSize: '$xl',
-      fontWeight: 'bold',
-      color: '$green300',
-    },
+  button: {
+    backgroundColor: '$green500',
+    border: 0,
+    color: '$white',
+    borderRadius: 6,
+    padding: '0.75rem',
+    cursor: 'pointer',
   },
 
   '&:hover': {
@@ -61,5 +59,22 @@ export const Product = styled('div', {
       transform: 'translateY(0%)',
       opacity: 1,
     },
+  },
+})
+
+export const ProductInfo = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.25rem',
+
+  strong: {
+    fontSize: '$lg',
+    color: '$gray100',
+  },
+
+  span: {
+    fontSize: '$xl',
+    fontWeight: 'bold',
+    color: '$green300',
   },
 })
