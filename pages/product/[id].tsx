@@ -6,6 +6,7 @@ import Stripe from 'stripe'
 import axios from 'axios'
 
 import { stripe } from 'lib/stripe'
+import { useBag } from 'hooks/useBag'
 import {
   ImageContainer,
   ProductContainer,
@@ -27,23 +28,23 @@ export default function Product({ product }: ProductProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
 
-  async function handleByProduct() {
-    try {
-      setIsCreatingCheckoutSession(true)
+  const { addProduct } = useBag()
 
-      const response = await axios.post('/api/checkout', {
-        priceId: product.defaultPriceId,
-      })
+  async function handleAddInBag() {
+    addProduct(product)
 
-      const { checkoutUrl } = response.data
-
-      window.location.href = checkoutUrl
-    } catch (error) {
-      // Conectar com uma ferramenta de observabilidade (Datadog / Sentry)
-
-      setIsCreatingCheckoutSession(false)
-      alert('Falha ao redirecionar ao checkout')
-    }
+    // try {
+    //   setIsCreatingCheckoutSession(true)
+    //   const response = await axios.post('/api/checkout', {
+    //     priceId: product.defaultPriceId,
+    //   })
+    //   const { checkoutUrl } = response.data
+    //   window.location.href = checkoutUrl
+    // } catch (error) {
+    //   // Conectar com uma ferramenta de observabilidade (Datadog / Sentry)
+    //   setIsCreatingCheckoutSession(false)
+    //   alert('Falha ao redirecionar ao checkout')
+    // }
   }
 
   return (
@@ -64,10 +65,10 @@ export default function Product({ product }: ProductProps) {
           <p>{product.description}</p>
 
           <button
-            disabled={isCreatingCheckoutSession}
-            onClick={handleByProduct}
+            // disabled={isCreatingCheckoutSession}
+            onClick={handleAddInBag}
           >
-            Comprar agora
+            Colocar na sacola
           </button>
         </ProductDetails>
       </ProductContainer>
