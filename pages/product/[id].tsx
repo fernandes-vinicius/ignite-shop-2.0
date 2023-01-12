@@ -1,9 +1,8 @@
-import { useState } from 'react'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import Image from 'next/image'
 import Head from 'next/head'
+import { v4 as uuid } from 'uuid'
 import Stripe from 'stripe'
-import axios from 'axios'
 
 import { stripe } from 'lib/stripe'
 import { useBag } from 'hooks/useBag'
@@ -25,32 +24,17 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-  const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-    useState(false)
-
   const { addProduct } = useBag()
 
-  async function handleAddInBag() {
-    addProduct(product)
-
-    // try {
-    //   setIsCreatingCheckoutSession(true)
-    //   const response = await axios.post('/api/checkout', {
-    //     priceId: product.defaultPriceId,
-    //   })
-    //   const { checkoutUrl } = response.data
-    //   window.location.href = checkoutUrl
-    // } catch (error) {
-    //   // Conectar com uma ferramenta de observabilidade (Datadog / Sentry)
-    //   setIsCreatingCheckoutSession(false)
-    //   alert('Falha ao redirecionar ao checkout')
-    // }
+  function handleAddInBag() {
+    const bagId = uuid()
+    addProduct({ ...product, bagId })
   }
 
   return (
     <>
       <Head>
-        <title>{product.name} | Ignite Shop</title>
+        <title>{`${product.name} | Ignite Shop`}</title>
       </Head>
 
       <ProductContainer>
@@ -64,12 +48,7 @@ export default function Product({ product }: ProductProps) {
 
           <p>{product.description}</p>
 
-          <button
-            // disabled={isCreatingCheckoutSession}
-            onClick={handleAddInBag}
-          >
-            Colocar na sacola
-          </button>
+          <button onClick={handleAddInBag}>Colocar na sacola</button>
         </ProductDetails>
       </ProductContainer>
     </>

@@ -5,8 +5,12 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 import logoImg from 'assets/logo.svg'
 import { useBag } from 'hooks/useBag'
-import { BagDrawer } from 'components/BagDrawer'
-import { Bag, BagCounter, HeaderContainer } from 'styles/components/header'
+import { CheckoutBagDrawer } from 'components/CheckoutBagDrawer'
+import {
+  BagButton,
+  BagCounter,
+  HeaderContainer,
+} from 'styles/components/header'
 
 export function Header() {
   const { totalProducts } = useBag()
@@ -18,14 +22,14 @@ export function Header() {
       </Link>
 
       <Dialog.Root>
-        <Dialog.Trigger asChild  >
-          <Bag variant="full" disabled={totalProducts <= 0}>
+        <Dialog.Trigger asChild>
+          <BagButton variant="full" disabled={totalProducts <= 0}>
             {totalProducts > 0 && <BagCounter>{totalProducts}</BagCounter>}
             <Handbag size={24} weight="bold" />
-          </Bag>
+          </BagButton>
         </Dialog.Trigger>
 
-        <BagDrawer />
+        <CheckoutBagDrawer />
       </Dialog.Root>
     </HeaderContainer>
   )

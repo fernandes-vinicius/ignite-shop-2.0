@@ -7,7 +7,6 @@ export const Overlay = styled(Dialog.Overlay, {
   width: '100vw',
   height: '100vh',
   inset: 0,
-  background: 'rgba(0, 0, 0, 0.75)',
 })
 
 export const Content = styled(Dialog.Content, {
@@ -102,7 +101,7 @@ export const ButtonCheckout = styled('button', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
- 
+
   width: '100%',
   marginTop: 'auto',
   backgroundColor: '$green500',

@@ -5,13 +5,15 @@ interface IProduct {
   name: string
   imageUrl: string
   price: string
+  defaultPriceId: string
+  bagId: string
 }
 
 interface IBagContext {
   products: IProduct[]
   totalProducts: number
   addProduct: (product: IProduct) => void
-  removeProduct: (productId: string) => void
+  removeProduct: (bagId: string) => void
 }
 
 interface BagProviderProps {
@@ -22,19 +24,17 @@ export const BagContext = createContext({} as IBagContext)
 
 export function BagProvider({ children }: BagProviderProps) {
   const [products, setProducts] = useState<IProduct[]>([])
-  const [totalProducts, setTotalProducts] = useState(0)
 
-  console.log('products', products)
-  console.log('totalProducts', totalProducts)
+  const totalProducts = products.length
 
   function addProduct(product: IProduct) {
-    setProducts((prevState) => [product, ...prevState])
-    setTotalProducts((prevState) => prevState + 1)
+    setProducts((state) => [...state, product])
   }
 
-  function removeProduct(productId: string) {
-    setProducts((prevState) => prevState.filter((p) => p.id !== productId))
-    setTotalProducts((prevState) => prevState - 1)
+  function removeProduct(bagId: string) {
+    setProducts((state) => {
+      return state.filter((product) => product.bagId !== bagId)
+    })
   }
 
   return (

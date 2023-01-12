@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import Image from 'next/image'
-import { X } from 'phosphor-react'
 import * as Dialog from '@radix-ui/react-dialog'
+import { X } from 'phosphor-react'
+import axios from 'axios'
 
 import { useBag } from 'hooks/useBag'
 import {
@@ -9,28 +10,29 @@ import {
   CloseButton,
   Content,
   ListProductsContainer,
+  Overlay,
   ProductDetails,
   ProductItem,
   Title,
-} from 'styles/components/bagDrawer'
+} from 'styles/components/checkoutBagDrawer'
 
-export function BagDrawer() {
+export function CheckoutBagDrawer() {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
 
-  const { products,totalProducts, removeProduct } = useBag()
+  const { products, totalProducts, removeProduct } = useBag()
 
   async function handleCheckout() {
     try {
       setIsCreatingCheckoutSession(true)
 
-      // const response = await axios.post('/api/checkout', {
-      //   priceId: product.defaultPriceId,
-      // })
+      const priceIds = products.map((product) => product.defaultPriceId)
 
-      // const { checkoutUrl } = response.data
+      const response = await axios.post('/api/checkout', { priceIds })
 
-      // window.location.href = checkoutUrl
+      const { checkoutUrl } = response.data
+
+      window.location.href = checkoutUrl
     } catch (error) {
       // Conectar com uma ferramenta de observabilidade (Datadog / Sentry)
 
@@ -39,15 +41,15 @@ export function BagDrawer() {
     }
   }
 
-  function handleRemove(productId:string) {
-    removeProduct(productId)
+  function handleRemove(bagId: string) {
+    removeProduct(bagId)
   }
 
   const disabledCheckout = isCreatingCheckoutSession || totalProducts <= 0
 
   return (
     <Dialog.Portal>
-      {/* <Overlay /> */}
+      <Overlay />
 
       <Content>
         <CloseButton>
@@ -58,23 +60,22 @@ export function BagDrawer() {
 
         <ListProductsContainer>
           {products.map((product) => (
-            <ProductItem key={product.id}>
+            <ProductItem key={product.bagId}>
               <Image src={product.imageUrl} width={100} height={93} alt="" />
 
               <ProductDetails>
                 <span>{product.name}</span>
                 <strong>{product.price}</strong>
 
-                <button onClick={()=> handleRemove(product.id)}>Remover</button>
+                <button onClick={() => handleRemove(product.bagId)}>
+                  Remover
+                </button>
               </ProductDetails>
             </ProductItem>
           ))}
         </ListProductsContainer>
 
-        <ButtonCheckout
-          disabled={disabledCheckout}
-          onClick={handleCheckout}
-        >
+        <ButtonCheckout disabled={disabledCheckout} onClick={handleCheckout}>
           Finalizar Compra
         </ButtonCheckout>
       </Content>

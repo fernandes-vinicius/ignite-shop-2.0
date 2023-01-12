@@ -11,7 +11,7 @@ export const HeaderContainer = styled('header', {
   margin: '0 auto',
 })
 
-export const Bag = styled('button', {
+export const BagButton = styled('button', {
   position: 'relative',
   backgroundColor: '$gray800',
   border: 0,
@@ -20,7 +20,7 @@ export const Bag = styled('button', {
   cursor: 'pointer',
 
   '&:disabled': {
-    cursor: 'not-allowed'
+    cursor: 'not-allowed',
   },
 
   variants: {
