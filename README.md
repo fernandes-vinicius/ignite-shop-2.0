@@ -3,7 +3,3 @@
 # Ignite Shop 2.0
 
 Desafio Ignite Rocketseat
-
-## Demo URL
-
-https://
