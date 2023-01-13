@@ -13,7 +13,9 @@ import {
   Overlay,
   ProductDetails,
   ProductItem,
+  QuantityItems,
   Title,
+  TotalItems,
 } from 'styles/components/checkoutBagDrawer'
 
 export function CheckoutBagDrawer() {
@@ -45,6 +47,11 @@ export function CheckoutBagDrawer() {
     removeProduct(bagId)
   }
 
+  const total = products.reduce((acc, currentValue) => {
+    acc += currentValue.priceAmount
+    return acc
+  }, 0)
+  const qtdItems = products.length
   const disabledCheckout = isCreatingCheckoutSession || totalProducts <= 0
 
   return (
@@ -74,6 +81,23 @@ export function CheckoutBagDrawer() {
             </ProductItem>
           ))}
         </ListProductsContainer>
+
+        <QuantityItems>
+          <span>Quantidade</span>
+          <span>
+            {qtdItems} {qtdItems === 1 ? 'item' : 'itens'}
+          </span>
+        </QuantityItems>
+
+        <TotalItems>
+          <span>Total</span>
+          <span>
+            {new Intl.NumberFormat('pt-BR', {
+              style: 'currency',
+              currency: 'BRL',
+            }).format(total)}
+          </span>
+        </TotalItems>
 
         <ButtonCheckout disabled={disabledCheckout} onClick={handleCheckout}>
           Finalizar Compra

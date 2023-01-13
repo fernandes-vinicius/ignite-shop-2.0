@@ -16,9 +16,10 @@ interface ProductProps {
   product: {
     id: string
     name: string
+    description: string
     imageUrl: string
     price: string
-    description: string
+    priceAmount: number
     defaultPriceId: string
   }
 }
@@ -80,13 +81,14 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
       product: {
         id: product.id,
         name: product.name,
+        description: product.description,
         imageUrl: product.images[0],
         url: product.url,
         price: new Intl.NumberFormat('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }).format(price.unit_amount! / 100),
-        description: product.description,
+        priceAmount: price.unit_amount! / 100,
         defaultPriceId: price.id,
       },
     },

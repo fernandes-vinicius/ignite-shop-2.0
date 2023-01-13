@@ -97,13 +97,45 @@ export const ProductDetails = styled('div', {
   },
 })
 
+export const QuantityItems = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  ':first-child': {
+    fontSize: '1rem',
+    color: '$gray100',
+  },
+
+  ':last-child': {
+    fontSize: '$md',
+    textAlign: 'right',
+    color: '$gray300',
+  },
+})
+
+export const TotalItems = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+
+  marginTop: '0.25rem',
+  color: '$gray100',
+  fontSize: '$md',
+
+  ':last-child': {
+    fontSize: '$xl',
+    textAlign: 'right',
+  },
+})
+
 export const ButtonCheckout = styled('button', {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
 
   width: '100%',
-  marginTop: 'auto',
+  marginTop: '3.5rem',
   backgroundColor: '$green500',
   border: 0,
   borderRadius: 8,

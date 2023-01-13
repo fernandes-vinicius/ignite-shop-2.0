@@ -5,6 +5,7 @@ interface IProduct {
   name: string
   imageUrl: string
   price: string
+  priceAmount: number
   defaultPriceId: string
   bagId: string
 }
